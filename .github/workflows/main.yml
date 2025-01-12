@@ -26,6 +26,11 @@ jobs:
           pip install -r requirements.txt
           pip install kaggle
 
+      # Step 3: Create the directory
+      - name: Create .kaggle directory
+        run: |
+            mkdir -p ~/.kaggle  # Ensure the .kaggle directory exists
+
       # Step 4: Set Kaggle Credentials
       - name: Set up Kaggle API credentials
         run: |
