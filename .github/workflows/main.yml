@@ -41,7 +41,13 @@ jobs:
         run: |
           python Scripts/pipeline.py
 
-      # Step 6: Commit and push Data folder back to the repository
+      # Step 6: Debugging - List contents of the Data folder to check if files were created
+      - name: Debug - List contents of Data folder
+        run: |
+          echo "Listing contents of Data folder:"
+          ls -R Data/
+
+      # Step 7: Commit and push Data folder back to the repository
       - name: Commit and push Data folder
         run: |
           git config --global user.name "GitHub Actions"
