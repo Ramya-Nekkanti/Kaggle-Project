@@ -41,7 +41,7 @@ jobs:
         run: |
           python Scripts/pipeline.py
 
-      # Step 6: Debugging - List contents of the Data folder to check if files were created
+      # Step 6: Debug - List contents of Data folder
       - name: Debug - List contents of Data folder
         run: |
           echo "Listing contents of Data folder:"
