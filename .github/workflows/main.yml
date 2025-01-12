@@ -40,3 +40,20 @@ jobs:
       - name: Run the Python script to fetch data
         run: |
           python Scripts/pipeline.py
+
+      # Step 6: Commit and push Data folder back to the repository
+      - name: Configure Git
+        run: |
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add and Commit Changes
+        run: |
+            git add Data/
+            git commit -m "Add transformed dataset" || echo "No changes to commit"
+
+      - name: Push Changes
+        run: |
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
