@@ -27,13 +27,10 @@ jobs:
           pip install kaggle
 
       # Step 4: Set Kaggle Credentials
-      - name: Set Kaggle Credentials
-        env:
-          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
-          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      - name: Set up Kaggle API credentials
         run: |
-          mkdir -p ~/.kaggle
-          echo '{"username":"'"$KAGGLE_USERNAME"'","key":"'"$KAGGLE_KEY"'"}' > ~/.kaggle/kaggle.json
+          # Ensure the Kaggle API credentials are set in the environment
+          echo "{\"username\": \"${{ secrets.KAGGLE_USERNAME }}\", \"key\": \"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
 
       # Step 5: Run Pipeline
