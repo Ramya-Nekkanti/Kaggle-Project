@@ -26,18 +26,17 @@ jobs:
           pip install -r requirements.txt
           pip install kaggle
 
-      # Step 3: Create the directory
-      - name: Create .kaggle directory
-        run: |
-            mkdir -p ~/.kaggle  # Ensure the .kaggle directory exists
-
-      # Step 4: Set Kaggle Credentials
+      # Step 4: Create .kaggle directory and set Kaggle credentials
       - name: Set up Kaggle API credentials
         run: |
-          # Ensure the Kaggle API credentials are set in the environment
+          mkdir -p ~/.kaggle  # Ensure the .kaggle directory exists
           echo "{\"username\": \"${{ secrets.KAGGLE_USERNAME }}\", \"key\": \"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
-          chmod 600 ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json  # Secure the kaggle.json file
 
-      # Step 5: Run Pipeline
-      - name: Run Pipeline
-        run: python Scripts/pipeline.py
+      # Step 5: Run the Python script to fetch data
+      - name: Run the Python script to fetch data
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          python Scripts/pipeline.py
