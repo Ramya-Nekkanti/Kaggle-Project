@@ -9,9 +9,6 @@ jobs:
   run-pipeline:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write  # Grant write permission to contents (to push changes)
-
     steps:
       # Step 1: Checkout Repository
       - name: Checkout Repository
