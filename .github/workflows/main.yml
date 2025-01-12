@@ -9,6 +9,9 @@ jobs:
   run-pipeline:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  # Grant write permission to contents (to push changes)
+
     steps:
       # Step 1: Checkout Repository
       - name: Checkout Repository
@@ -29,19 +32,16 @@ jobs:
       # Step 4: Create .kaggle directory and set Kaggle credentials
       - name: Set up Kaggle API credentials
         run: |
-          mkdir -p ~/.kaggle  # Ensure the .kaggle directory exists
+          mkdir -p ~/.kaggle
           echo "{\"username\": \"${{ secrets.KAGGLE_USERNAME }}\", \"key\": \"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
-          chmod 600 ~/.kaggle/kaggle.json  # Secure the kaggle.json file
+          chmod 600 ~/.kaggle/kaggle.json
 
-      # Step 5: Run the Python script to fetch data
+      # Step 5: Run the Python script to fetch and process the data
       - name: Run the Python script to fetch data
-        env:
-          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
-          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
           python Scripts/pipeline.py
-      
-      # Step 6: Commit and push the Data folder back to the repository
+
+      # Step 6: Commit and push Data folder back to the repository
       - name: Commit and push Data folder
         run: |
           git config --global user.name "GitHub Actions"
