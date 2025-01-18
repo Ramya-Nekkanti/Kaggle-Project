@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: '*/10 * * * *'  # Runs the workflow every 10 minutes
-
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
