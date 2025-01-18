@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 * * * *'  # This cron expression runs the workflow every hour at minute 0
 
 jobs:
   run-pipeline:
@@ -29,15 +31,13 @@ jobs:
           pip install -r requirements.txt
           pip install kaggle
 
-     #Step 4: Create .kaggle directory and set Kaggle credentials
+      # Step 4: Create .kaggle directory and set Kaggle credentials
       - name: Set up Kaggle API credentials
         run: |
-          # Ensure the Kaggle API credentials are set in the environment
-          mkdir -p ~/.kaggle  # Ensure the .kaggle directory exists
+          mkdir -p ~/.kaggle
           echo "{\"username\": \"${{ secrets.KAGGLE_USERNAME }}\", \"key\": \"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
   
-     
       # Step 5: Run Pipeline
       - name: Run the Python script to fetch data
         env:
@@ -45,7 +45,7 @@ jobs:
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
           python Scripts/pipeline.py
-      
+          
       # Step 6: Commit and push the Data folder back to the repository
       - name: Commit and push Data folder
         run: |
