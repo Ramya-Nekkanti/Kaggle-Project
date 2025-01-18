@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 * * * *'  # This cron expression runs the workflow every hour at minute 0
+    - cron: '*/10 * * * *'  # Runs the workflow every 10 minutes
 
 jobs:
   run-pipeline:
@@ -45,9 +45,16 @@ jobs:
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
           python Scripts/pipeline.py
-          
-      # Step 6: Commit and push the Data folder back to the repository
+
+      # Step 6: Check for changes in the Data folder
+      - name: Check for changes in Data folder
+        id: check_changes
+        run: |
+          git diff --exit-code Data/ || echo "Changes detected"
+        
+      # Step 7: Commit and push Data folder only if there are changes
       - name: Commit and push Data folder
+        if: steps.check_changes.outputs.exit_code != '0'
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
